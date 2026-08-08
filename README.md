@@ -2,36 +2,24 @@
 
 Site officiel de **ORION SimPit** — <https://orionsimpit.eu>
 
-## Objectif
+## Mission de la v0.2
 
-Cette v0.1 est volontairement statique et sans framework afin de permettre un déploiement GitHub Pages immédiat, avec une surface technique minimale.
+Installer la marque ORION avec une présence sobre, premium et mystérieuse, sans dévoiler la
+technologie, l’architecture ou la feuille de route du projet.
 
-## Fichiers
+## Contenu
 
-- `index.html` — landing page publique
-- `styles.css` — charte visuelle ORION v0.1
-- `script.js` — interactions légères et accessibles
-- `CNAME` — domaine personnalisé GitHub Pages
+- `index.html` — page publique et métadonnées SEO/OpenGraph ;
+- `styles.css` — identité visuelle responsive et animations CSS discrètes ;
+- `favicon.svg` — favicon ORION ;
+- `og-orion.png` — carte de partage social ;
+- `robots.txt` et `sitemap.xml` — indexation de base ;
+- `CNAME` — domaine personnalisé GitHub Pages.
+
+Le site n’utilise ni framework, ni JavaScript, ni police distante. Le lien Discord restera inactif
+jusqu’à la publication d’une invitation officielle.
 
 ## Déploiement
 
-GitHub Pages doit publier la branche `main` depuis `/ (root)`.
-
-Le domaine principal est `orionsimpit.eu` et `www.orionsimpit.eu` doit rediriger vers celui-ci via la configuration DNS/GitHub Pages.
-
-## Principes visuels
-
-- fond noir/bleu très sombre ;
-- accent cyan lumineux ;
-- interfaces sobres inspirées des cockpits et HUD de simulation ;
-- animations discrètes ;
-- responsive et respect de `prefers-reduced-motion`.
-
-## À venir
-
-- intégration du logo vectoriel officiel ;
-- liens Discord et YouTube officiels ;
-- page documentation ;
-- page roadmap détaillée ;
-- formulaire pilote alpha ;
-- optimisation SEO/social preview.
+GitHub Pages publie la branche `main` depuis la racine du dépôt. Le domaine canonique est
+`orionsimpit.eu`.

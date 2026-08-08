@@ -1,116 +1,74 @@
 <!doctype html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#05070a">
-  <meta name="description" content="ORION SimPit — plateforme modulaire de cockpit pour jeux de simulation. Fly the Ship. Forget the Controls.">
-  <title>ORION SimPit — Fly the Ship. Forget the Controls.</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="stars" aria-hidden="true"></div>
-  <header class="site-header">
-    <a class="brand" href="#top" aria-label="ORION SimPit — accueil">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 64 64" role="img">
-          <circle cx="32" cy="32" r="25" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="38 8 30 8"/>
-          <path d="M11 39 L27 34 L32 22 L37 34 L53 39 L39 38 L32 45 L25 38 Z" fill="currentColor"/>
-          <path d="M32 9 l2.2 5.8L40 17l-5.8 2.2L32 25l-2.2-5.8L24 17l5.8-2.2Z" fill="currentColor"/>
-        </svg>
-      </span>
-      <span><strong>ORION</strong><small>SimPit</small></span>
-    </a>
-    <nav aria-label="Navigation principale">
-      <a href="#vision">Vision</a>
-      <a href="#platform">Plateforme</a>
-      <a href="#roadmap">Roadmap</a>
-      <a href="#community">Communauté</a>
-    </nav>
-  </header>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <main id="top">
-    <section class="hero">
-      <div class="hero-copy reveal">
-        <p class="eyebrow">OPEN MODULAR COCKPIT PLATFORM</p>
-        <h1>Fly the Ship.<br><span>Forget the Controls.</span></h1>
-        <p class="lead">ORION relie simulateurs, commandes, écrans, tablettes et périphériques dans un même cockpit cohérent — du setup accessible au simpit premium.</p>
-        <div class="cta-row">
-          <a class="btn primary" href="https://github.com/ORION-simpit" rel="noreferrer">Suivre sur GitHub</a>
-          <a class="btn secondary" href="#community">Rejoindre l'aventure</a>
+    <title>ORION SimPit — Fly the Ship. Forget the Controls.</title>
+    <meta
+      name="description"
+      content="ORION is a next-generation platform built for simulation enthusiasts. Currently under development."
+    >
+    <meta name="theme-color" content="#030607">
+    <meta name="color-scheme" content="dark">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://orionsimpit.eu/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ORION SimPit">
+    <meta property="og:title" content="ORION — Fly the Ship. Forget the Controls.">
+    <meta
+      property="og:description"
+      content="A next-generation platform built for simulation enthusiasts. Currently under development."
+    >
+    <meta property="og:url" content="https://orionsimpit.eu/">
+    <meta property="og:image" content="https://orionsimpit.eu/og-orion.png">
+    <meta property="og:image:width" content="1536">
+    <meta property="og:image:height" content="1024">
+    <meta property="og:image:alt" content="ORION — Fly the Ship. Forget the Controls.">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ORION — Fly the Ship. Forget the Controls.">
+    <meta
+      name="twitter:description"
+      content="A next-generation platform built for simulation enthusiasts. Currently under development."
+    >
+    <meta name="twitter:image" content="https://orionsimpit.eu/og-orion.png">
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true"></div>
+
+    <main>
+      <section class="hero" aria-labelledby="orion-title">
+        <p class="eyebrow">ORION SimPit</p>
+        <h1 id="orion-title">ORION</h1>
+
+        <p class="tagline">
+          <span>Fly the Ship.</span>
+          <span>Forget the Controls.</span>
+        </p>
+
+        <div class="statement">
+          <p>A next-generation platform built for simulation enthusiasts.</p>
+          <p class="status"><span aria-hidden="true"></span>Currently under development.</p>
         </div>
-        <div class="status-strip" aria-label="État du projet">
-          <span><i></i> Core</span>
-          <span><i></i> Host</span>
-          <span><i></i> Transport</span>
-          <span class="planned"><i></i> Companion</span>
-        </div>
-      </div>
 
-      <div class="hero-system reveal" aria-label="Schéma du système ORION">
-        <div class="orbit orbit-a"></div>
-        <div class="orbit orbit-b"></div>
-        <div class="node core-node"><b>ORION</b><span>HOST</span></div>
-        <div class="node n1">SIM</div>
-        <div class="node n2">HID</div>
-        <div class="node n3">PANEL</div>
-        <div class="node n4">LIGHT</div>
-        <div class="node n5">VR</div>
-        <div class="pulse p1"></div><div class="pulse p2"></div><div class="pulse p3"></div>
-      </div>
-    </section>
+        <nav class="actions" aria-label="ORION links">
+          <a href="https://github.com/ORION-simpit" rel="me">GitHub</a>
+          <span class="disabled" aria-disabled="true" title="Discord invitation coming soon">
+            Discord
+          </span>
+        </nav>
+      </section>
+    </main>
 
-    <section id="vision" class="section reveal">
-      <p class="eyebrow">POURQUOI ORION</p>
-      <h2>Un cockpit qui s'adapte au pilote.</h2>
-      <p class="section-intro">Trop de profils, trop de logiciels, trop de temps à se souvenir des touches. ORION vise à réduire la charge cognitive pour que le pilote pense à sa mission, pas à sa configuration.</p>
-      <div class="principles">
-        <article><span>01</span><h3>Local First</h3><p>Le pilotage local reste fonctionnel même si Internet, une API ou un client distant tombe.</p></article>
-        <article><span>02</span><h3>Hardware Agnostic</h3><p>Un TCA d'occasion et un cockpit haut de gamme parlent le même langage ORION.</p></article>
-        <article><span>03</span><h3>Multi-Sim</h3><p>Le cockpit ne doit pas être prisonnier d'un seul jeu. Les simulateurs deviennent des connecteurs.</p></article>
-        <article><span>04</span><h3>Human First</h3><p>Chaque fonction doit améliorer l'immersion ou diminuer l'effort mental du pilote.</p></article>
-      </div>
-    </section>
-
-    <section id="platform" class="section reveal">
-      <p class="eyebrow">LA PLATEFORME</p>
-      <h2>Un seul cœur. Plusieurs interfaces.</h2>
-      <div class="architecture">
-        <div class="arch-card"><small>INPUT</small><strong>Simulateurs & Hardware</strong><p>Joysticks, pédales, journaux de jeu, télémétrie et services externes.</p></div>
-        <div class="arrow">→</div>
-        <div class="arch-card featured"><small>AUTHORITY</small><strong>ORION Host</strong><p>État autoritaire, Event Bus, règles, providers et synchronisation.</p></div>
-        <div class="arrow">→</div>
-        <div class="arch-card"><small>OUTPUT</small><strong>Companions & Devices</strong><p>PC secondaire, tablettes, Stream Deck, éclairage, VR et panneaux.</p></div>
-      </div>
-    </section>
-
-    <section id="roadmap" class="section reveal">
-      <p class="eyebrow">ROADMAP</p>
-      <h2>Construire d'abord le cœur.</h2>
-      <div class="timeline">
-        <article class="done"><span>v0.1</span><h3>Foundation</h3><p>Core, Host, Event Bus, State Store, transport Host ↔ Client.</p></article>
-        <article class="active"><span>v0.2</span><h3>First Contact</h3><p>Premier provider de simulateur, Companion PC et données temps réel.</p></article>
-        <article><span>v0.3</span><h3>Cockpit Layer</h3><p>Panneaux tactiles, outputs, profils matériels et automatisations.</p></article>
-        <article><span>v1.0</span><h3>Ecosystem</h3><p>SDK, plugins, profils communautaires et expérience multi-sim.</p></article>
-      </div>
-    </section>
-
-    <section id="community" class="section community reveal">
-      <p class="eyebrow">BUILD WITH US</p>
-      <h2>ORION se construit avec des pilotes.</h2>
-      <p>Le projet est encore jeune. Nous cherchons des pilotes, des makers et des développeurs capables de challenger les choix avant qu'ils ne deviennent définitifs.</p>
-      <div class="cta-row center">
-        <a class="btn primary" href="https://github.com/ORION-simpit" rel="noreferrer">GitHub</a>
-        <a class="btn secondary disabled" href="#" aria-disabled="true">Discord — bientôt</a>
-        <a class="btn secondary disabled" href="#" aria-disabled="true">YouTube — bientôt</a>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div><strong>ORION SimPit</strong><span>Built by sim pilots. For sim pilots.</span></div>
-    <p>© 2026 ORION SimPit — orionsimpit.eu</p>
-  </footer>
-  <script src="script.js"></script>
-</body>
+    <footer>
+      <p>© ORION SimPit</p>
+      <p>Made in France</p>
+    </footer>
+  </body>
 </html>
