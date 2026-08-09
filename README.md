@@ -1,37 +1,15 @@
-# ORION SimPit Website
+# ORION — Landing First Impression v0.1
 
-Site officiel de **ORION SimPit** — <https://orionsimpit.eu>
+Refonte visuelle pré-reveal du site public ORION.
 
-## Objectif
+## Décisions
 
-Cette v0.1 est volontairement statique et sans framework afin de permettre un déploiement GitHub Pages immédiat, avec une surface technique minimale.
+- la composition reste centrée pour transformer le nom ORION en unique point focal ;
+- le halo et les orbites créent une présence sans illustrer le produit ;
+- le cyan est limité aux signaux de contour et ne devient jamais une grande surface ;
+- les textes publics restent strictement limités au nom, au slogan et à l’annonce pré-reveal ;
+- aucun lien, bouton, produit, mockup, architecture ou détail technique n’est exposé ;
+- HTML/CSS statiques, aucune dépendance et aucun JavaScript ;
+- toutes les animations sont décoratives et neutralisées par `prefers-reduced-motion`.
 
-## Fichiers
-
-- `index.html` — landing page publique
-- `styles.css` — charte visuelle ORION v0.1
-- `script.js` — interactions légères et accessibles
-- `CNAME` — domaine personnalisé GitHub Pages
-
-## Déploiement
-
-GitHub Pages doit publier la branche `main` depuis `/ (root)`.
-
-Le domaine principal est `orionsimpit.eu` et `www.orionsimpit.eu` doit rediriger vers celui-ci via la configuration DNS/GitHub Pages.
-
-## Principes visuels
-
-- fond noir/bleu très sombre ;
-- accent cyan lumineux ;
-- interfaces sobres inspirées des cockpits et HUD de simulation ;
-- animations discrètes ;
-- responsive et respect de `prefers-reduced-motion`.
-
-## À venir
-
-- intégration du logo vectoriel officiel ;
-- liens Discord et YouTube officiels ;
-- page documentation ;
-- page roadmap détaillée ;
-- formulaire pilote alpha ;
-- optimisation SEO/social preview.
+La capture de référence est versionnée dans `docs/branding/landing-first-impression-v0.1.png`.
