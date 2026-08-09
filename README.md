@@ -11,5 +11,7 @@ Refonte visuelle pré-reveal du site public ORION.
 - aucun lien, bouton, produit, mockup, architecture ou détail technique n’est exposé ;
 - HTML/CSS statiques, aucune dépendance et aucun JavaScript ;
 - toutes les animations sont décoratives et neutralisées par `prefers-reduced-motion`.
+- les métadonnées sociales, `robots.txt` et `sitemap.xml` consolident les éléments SEO neutres
+  conservés de l’ancienne proposition v0.2, sans reprendre son design.
 
 La capture de référence est versionnée dans `docs/branding/landing-first-impression-v0.1.png`.
