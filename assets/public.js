@@ -12,13 +12,11 @@
     .join("");
 
   function syncHotspots() {
-    const { width, height } = root.getBoundingClientRect();
-    const source = window.OrionReveal.SOURCE;
-    const scale = Math.max(width / source.width, height / source.height);
-    const artworkWidth = source.width * scale;
-    const artworkHeight = source.height * scale;
-    const artworkX = (width - artworkWidth) / 2;
-    const artworkY = (height - artworkHeight) / 2;
+    const geometry = window.OrionReveal.applyGeometry(root);
+    const artworkWidth = geometry.renderedWidth;
+    const artworkHeight = geometry.renderedHeight;
+    const artworkX = geometry.left;
+    const artworkY = geometry.top;
     const values = {
       "--apply-left": artworkX + artworkWidth * 0.311,
       "--apply-top": artworkY + artworkHeight * 0.628,
@@ -79,7 +77,6 @@
     finalReady();
   });
 
-  window.OrionReveal.applyGeometry(root);
   syncHotspots();
   loadRelease();
   reveal.preflight(() => immediate ? (reveal.finalState({ notify: false }), finalReady()) : reveal.run());
