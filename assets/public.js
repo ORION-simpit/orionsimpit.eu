@@ -70,8 +70,15 @@
   const reveal = window.OrionReveal.create(root, { onComplete: finalReady });
   const immediate = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  const viewport = window.visualViewport;
   window.addEventListener("resize", syncHotspots);
-  window.addEventListener("pagehide", () => reveal.destroy(), { once: true });
+  viewport?.addEventListener("resize", syncHotspots);
+  viewport?.addEventListener("scroll", syncHotspots);
+  window.addEventListener("pagehide", () => {
+    viewport?.removeEventListener("resize", syncHotspots);
+    viewport?.removeEventListener("scroll", syncHotspots);
+    reveal.destroy();
+  }, { once: true });
   skip.addEventListener("click", () => {
     reveal.finalState({ notify: false });
     finalReady();
