@@ -1,4 +1,4 @@
-:root{color-scheme:dark;--cyan:#67eaff;--orion-artwork:url("orion-eclipse-v15.jpg?v=15.1");--orion-cx:50%;--orion-cy:42%;--orion-radius:190px;--orion-diameter:380px;--orion-r94:179px;--orion-r100:190px;--orion-r146:277px;--orion-r162:308px;--orion-i-width:61px;--orion-i-height:118px}
+:root{color-scheme:dark;--cyan:#67eaff;--orion-artwork:url("orion-eclipse-v15-no-left-hud.png");--orion-cx:50%;--orion-cy:42%;--orion-radius:190px;--orion-diameter:380px;--orion-r94:179px;--orion-r100:190px;--orion-r146:277px;--orion-r162:308px;--orion-i-width:61px;--orion-i-height:118px}
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#010405}
 body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
@@ -49,3 +49,9 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-ser
 .landing-hotspot:focus-visible{outline:2px solid #67eaff;outline-offset:4px;box-shadow:0 0 20px rgba(103,234,255,.55)}
 @media(max-width:650px){.boot-status{top:16px;left:13px}.boot-skip{top:auto;bottom:12px}}
 @media(prefers-reduced-motion:reduce){.orion-master.energized,.orion-corona.breathe,.orion-ambient.active{animation:none}.orion-master{filter:brightness(1.06) saturate(1.08)}}
+
+.landing-release-version{position:absolute;z-index:21;left:var(--release-meta-left,36.5%);top:var(--release-meta-top,72.1%);width:var(--release-meta-width,27%);height:var(--release-meta-height,7.2%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:4px;background:#010405;box-shadow:0 0 22px rgba(1,4,5,.95);text-align:center;text-transform:uppercase;pointer-events:none}
+.landing-release-version strong{color:#69e7f5;font:500 clamp(9px,.73vw,12px)/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.24em}
+.landing-release-version small{color:rgba(190,216,218,.68);font:400 clamp(8px,.58vw,10px)/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em}
+.orion-reveal[data-active-release="alpha"] .landing-release-version{left:var(--release-alphaMeta-left,36.5%);top:var(--release-alphaMeta-top,76.8%);width:var(--release-alphaMeta-width,27%);height:var(--release-alphaMeta-height,3.8%);justify-content:flex-start;gap:0;background:transparent;box-shadow:none;text-shadow:0 1px 8px #010405,0 0 18px #010405}
+.orion-reveal[data-active-release="alpha"] .landing-release-version strong{display:none}

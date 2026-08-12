@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-release-channel="alpha" data-release-name="ALPHA" data-release-version="0.1.0">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -9,14 +9,14 @@
   <meta property="og:description" content="Fly the Ship. Forget the Controls.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://orionsimpit.eu/">
-  <meta name="robots" content="index,follow">
+  <meta name="robots" content="noindex,nofollow">
   <title>ORION — Fly the Ship. Forget the Controls.</title>
-  <link rel="stylesheet" href="assets/styles.css?v=15.1">
-  <script src="assets/reveal.js?v=15.1" defer></script>
-  <script src="assets/public.js?v=15.1" defer></script>
+  <link rel="stylesheet" href="assets/styles.css?v=15.2">
+  <script src="assets/reveal.js?v=15.2" defer></script>
+  <script src="assets/public.js?v=15.2" defer></script>
 </head>
 <body>
-  <main id="orion" class="orion-reveal" aria-label="ORION — Fly the Ship. Forget the Controls.">
+  <main id="orion" class="orion-reveal" data-active-release="alpha" aria-label="ORION — Fly the Ship. Forget the Controls.">
     <div class="orion-master" data-reveal-master aria-hidden="true"></div>
     <div class="orion-ambient" data-reveal-ambient aria-hidden="true"></div>
     <div class="orion-corona" data-reveal-corona aria-hidden="true"></div>
@@ -49,6 +49,8 @@
 
     <div class="orion-flash" data-reveal-flash aria-hidden="true"></div>
     <div class="asset-error" data-reveal-error role="alert">ERREUR ASSET — L’image ORION n’a pas pu être décodée.</div>
+
+    <div id="release-version" class="landing-release-version" aria-label="ALPHA version 0.1.0"><strong>ALPHA</strong><small>v0.1.0</small></div>
 
     <a class="landing-hotspot landing-hotspot-apply" href="https://alpha.orionsimpit.eu/">
       <span class="sr-only">Rejoindre l’Alpha ORION</span>

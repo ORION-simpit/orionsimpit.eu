@@ -5,9 +5,9 @@
 })(typeof globalThis !== "undefined" ? globalThis : this, () => {
   "use strict";
 
-  const ARTWORK = "/assets/orion-eclipse-v15.jpg?v=15.1";
+  const ARTWORK = "/assets/orion-eclipse-v15-no-left-hud.png";
   const SOURCE = Object.freeze({ width: 1536, height: 1024, centerX: 765, centerY: 430, radius: 192 });
-  const TIMING = Object.freeze({ load: 7600, lock: 500, reveal: 1100, fade: 3200, pulse: 5200, cycle: 6600 });
+  const TIMING = Object.freeze({ load: 7600, lock: 500, reveal: 1100, fade: 4200, pulse: 6100, cycle: 6600 });
   const phaseSteps = Object.freeze([
     [700, 0, "POWER BUS"],
     [1600, 1, "CORE SYSTEMS"],
@@ -192,7 +192,7 @@
         counter.textContent = "LOCK";
         phase.textContent = "LOCK ON";
         nominal.innerHTML = "ALL SYSTEMS<br>CALIBRATING";
-        motion.push(flash.animate([{ opacity: 0 }, { opacity: 0.58, offset: 0.22 }, { opacity: 0 }], { duration: 850, easing: "ease-out" }));
+        motion.push(flash.animate([{ opacity: 0 }, { opacity: 0.3, offset: 0.26 }, { opacity: 0 }], { duration: 1100, easing: "ease-in-out" }));
       }, TIMING.load + TIMING.lock);
 
       later(timers, () => {
@@ -200,14 +200,14 @@
         corona.style.visibility = "visible";
         onReveal();
         motion.push(master.animate(
-          [{ opacity: 0 }, { opacity: 0.08, offset: 0.16 }, { opacity: 0.28, offset: 0.38 }, { opacity: 0.62, offset: 0.68 }, { opacity: 0.88, offset: 0.88 }, { opacity: 1 }],
-          { duration: TIMING.fade, easing: "cubic-bezier(.37,0,.2,1)", fill: "forwards" },
+          [{ opacity: 0 }, { opacity: 0.03, offset: 0.18 }, { opacity: 0.14, offset: 0.42 }, { opacity: 0.38, offset: 0.68 }, { opacity: 0.7, offset: 0.86 }, { opacity: 1 }],
+          { duration: TIMING.fade, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" },
         ));
-        motion.push(bootSpace.animate([{ opacity: 1 }, { opacity: 0.82, offset: 0.28 }, { opacity: 0.38, offset: 0.7 }, { opacity: 0 }], { duration: 3000, easing: "cubic-bezier(.37,0,.2,1)", fill: "forwards" }));
-        motion.push(progress.animate([{ opacity: 1 }, { opacity: 0.82, offset: 0.3 }, { opacity: 0.42, offset: 0.67 }, { opacity: 0 }], { duration: 2700, easing: "ease-in-out", fill: "forwards" }));
-        motion.push(head.animate([{ opacity: 0.8 }, { opacity: 0 }], { duration: 1450, easing: "ease-in-out", fill: "forwards" }));
-        motion.push(iMark.animate([{ opacity: 0, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0)" }], { duration: 1650, delay: 1150, easing: "ease-in-out", fill: "forwards" }));
-        motion.push(corona.animate([{ opacity: 0 }, { opacity: 0.1, offset: 0.4 }, { opacity: 0.18 }], { duration: 3000, easing: "ease-in-out", fill: "forwards" }));
+        motion.push(bootSpace.animate([{ opacity: 1 }, { opacity: 0.92, offset: 0.25 }, { opacity: 0.68, offset: 0.55 }, { opacity: 0.3, offset: 0.82 }, { opacity: 0 }], { duration: 4100, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" }));
+        motion.push(progress.animate([{ opacity: 1 }, { opacity: 0.9, offset: 0.3 }, { opacity: 0.55, offset: 0.65 }, { opacity: 0 }], { duration: 3400, easing: "ease-in-out", fill: "forwards" }));
+        motion.push(head.animate([{ opacity: 0.8 }, { opacity: 0 }], { duration: 1900, easing: "ease-in-out", fill: "forwards" }));
+        motion.push(iMark.animate([{ opacity: 0, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0)" }], { duration: 2200, delay: 1350, easing: "ease-in-out", fill: "forwards" }));
+        motion.push(corona.animate([{ opacity: 0 }, { opacity: 0.1, offset: 0.4 }, { opacity: 0.18 }], { duration: 4200, easing: "ease-in-out", fill: "forwards" }));
       }, TIMING.load + TIMING.reveal);
 
       later(timers, () => {
@@ -216,7 +216,7 @@
         phase.textContent = "SYSTEMS CLEAR";
         nominal.innerHTML = "ALL SYSTEMS<br>NOMINAL";
         motion.push(hud.animate([{ opacity: 1 }, { opacity: 0, transform: "translateX(-8px)" }], { duration: 900, easing: "ease-out", fill: "forwards" }));
-      }, TIMING.load + 4400);
+      }, TIMING.load + 5400);
 
       later(timers, pulse, TIMING.load + TIMING.pulse);
       later(timers, onComplete, TIMING.load + TIMING.pulse + 900);
