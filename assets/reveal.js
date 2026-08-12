@@ -7,6 +7,7 @@
 
   const ARTWORK = "/assets/orion-eclipse-v15-no-left-hud.png";
   const SOURCE = Object.freeze({ width: 1536, height: 1024, centerX: 765, centerY: 430, radius: 192 });
+  const PORTRAIT = Object.freeze({ maxWidth: 900, minAspect: 1.08, widthScale: 1.85, positionY: 0.43 });
   const TIMING = Object.freeze({ load: 7600, lock: 500, reveal: 1100, fade: 4200, pulse: 6100, cycle: 6600 });
   const phaseSteps = Object.freeze([
     [700, 0, "POWER BUS"],
@@ -23,13 +24,16 @@
   };
 
   function geometryFor(width, height) {
-    const scale = Math.max(width / SOURCE.width, height / SOURCE.height);
+    const portrait = width <= PORTRAIT.maxWidth && height >= width * PORTRAIT.minAspect;
+    const scale = portrait ? width * PORTRAIT.widthScale / SOURCE.width : Math.max(width / SOURCE.width, height / SOURCE.height);
     const renderedWidth = SOURCE.width * scale;
     const renderedHeight = SOURCE.height * scale;
-    const x = (width - renderedWidth) / 2 + SOURCE.centerX * scale;
-    const y = (height - renderedHeight) / 2 + SOURCE.centerY * scale;
+    const left = (width - renderedWidth) / 2;
+    const top = portrait ? (height - renderedHeight) * PORTRAIT.positionY : (height - renderedHeight) / 2;
+    const x = left + SOURCE.centerX * scale;
+    const y = top + SOURCE.centerY * scale;
     const radius = SOURCE.radius * scale;
-    return { x, y, radius, circumference: 2 * Math.PI * radius };
+    return { x, y, radius, circumference: 2 * Math.PI * radius, left, top, renderedWidth, renderedHeight, portrait };
   }
 
   function applyGeometry(node) {
@@ -46,6 +50,11 @@
     node.style.setProperty("--orion-r162", `${geometry.radius * 1.62}px`);
     node.style.setProperty("--orion-i-width", `${geometry.radius * 0.32}px`);
     node.style.setProperty("--orion-i-height", `${geometry.radius * 0.62}px`);
+    node.style.setProperty("--orion-bg-left", `${geometry.left}px`);
+    node.style.setProperty("--orion-bg-top", `${geometry.top}px`);
+    node.style.setProperty("--orion-bg-width", `${geometry.renderedWidth}px`);
+    node.style.setProperty("--orion-bg-height", `${geometry.renderedHeight}px`);
+    node.classList.toggle("is-portrait-composition", geometry.portrait);
     return geometry;
   }
 
@@ -61,6 +70,7 @@
     const hud = select(node, "[data-reveal-hud]");
     const flash = select(node, "[data-reveal-flash]");
     const error = select(node, "[data-reveal-error]");
+    const skip = select(node, ".boot-skip");
     const rows = selectAll(node, ".boot-line");
     const counter = select(node, "#boot-percent");
     const index = select(node, "#boot-index");
@@ -109,6 +119,12 @@
       ambient.style.visibility = "hidden";
       hud.style.opacity = 1;
       hud.style.transform = "none";
+      if (skip) {
+        skip.disabled = false;
+        skip.removeAttribute("aria-hidden");
+        skip.style.opacity = 1;
+        skip.style.pointerEvents = "auto";
+      }
       index.textContent = "01.";
       counter.textContent = "0%";
       phase.textContent = "INITIALISATION";
@@ -149,6 +165,12 @@
       hud.style.opacity = 0;
       corona.style.opacity = 0.18;
       corona.style.visibility = "visible";
+      if (skip) {
+        skip.disabled = true;
+        skip.setAttribute("aria-hidden", "true");
+        skip.style.opacity = 0;
+        skip.style.pointerEvents = "none";
+      }
       pulse();
       if (notify) {
         onReveal();
@@ -198,6 +220,12 @@
       later(timers, () => {
         master.style.visibility = "visible";
         corona.style.visibility = "visible";
+        if (skip) {
+          skip.disabled = true;
+          skip.setAttribute("aria-hidden", "true");
+          skip.style.opacity = 0;
+          skip.style.pointerEvents = "none";
+        }
         onReveal();
         motion.push(master.animate(
           [{ opacity: 0 }, { opacity: 0.03, offset: 0.18 }, { opacity: 0.14, offset: 0.42 }, { opacity: 0.38, offset: 0.68 }, { opacity: 0.7, offset: 0.86 }, { opacity: 1 }],
@@ -242,5 +270,5 @@
     return { run, stop, reset, pulse, finalState, preflight, destroy: () => { stop(); removeEventListener("resize", resize); } };
   }
 
-  return { ARTWORK, SOURCE, TIMING, geometryFor, applyGeometry, create };
+  return { ARTWORK, SOURCE, PORTRAIT, TIMING, geometryFor, applyGeometry, create };
 });
