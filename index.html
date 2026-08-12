@@ -2,40 +2,60 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#020407">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#010405">
   <meta name="description" content="ORION — Fly the Ship. Forget the Controls.">
   <meta property="og:title" content="ORION">
-  <meta property="og:description" content="Something big is coming.">
+  <meta property="og:description" content="Fly the Ship. Forget the Controls.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://orionsimpit.eu/">
+  <meta name="robots" content="index,follow">
   <title>ORION — Fly the Ship. Forget the Controls.</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/reveal.js" defer></script>
+  <script src="assets/public.js" defer></script>
 </head>
 <body>
-  <main class="teaser-shell">
-    <section class="teaser" aria-labelledby="orion-title">
-      <div class="orb" aria-hidden="true">
-        <div class="orb-ring"></div>
-        <div class="brand-block">
-          <h1 id="orion-title">ORION</h1>
-          <p class="tagline">FLY THE SHIP. FORGET THE CONTROLS.</p>
-        </div>
-      </div>
+  <main id="orion" class="orion-reveal" aria-label="ORION — Fly the Ship. Forget the Controls.">
+    <div class="orion-master" data-reveal-master aria-hidden="true"></div>
+    <div class="orion-ambient" data-reveal-ambient aria-hidden="true"></div>
+    <div class="orion-corona" data-reveal-corona aria-hidden="true"></div>
+    <div class="orion-boot-space" data-reveal-space aria-hidden="true"></div>
 
-      <div class="coming-block">
-        <p class="coming">SOMETHING BIG IS COMING.</p>
-        <span class="divider" aria-hidden="true"></span>
-        <p class="whisper">Le futur de la simulation se prépare.</p>
-        <span class="divider short" aria-hidden="true"></span>
-        <button class="invite" type="button" disabled aria-disabled="true">RECEVOIR UNE INVITATION</button>
-        <p class="invite-note">Invitations bientôt disponibles.</p>
-      </div>
-    </section>
+    <button id="boot-skip" class="boot-skip" type="button">Passer l’initialisation</button>
+
+    <div class="orion-progress-wrap" aria-hidden="true">
+      <svg viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="solar-stroke" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fff9e9"/>
+            <stop offset=".5" stop-color="#ffe1ad"/>
+            <stop offset="1" stop-color="#ffbd73"/>
+          </linearGradient>
+        </defs>
+        <circle class="orion-track" cx="50" cy="50" r="50"/>
+        <circle class="orion-progress" data-reveal-progress cx="50" cy="50" r="50"/>
+      </svg>
+    </div>
+
+    <div class="orion-head" data-reveal-head aria-hidden="true"></div>
+    <div class="orion-i" data-reveal-i aria-hidden="true"><i></i><b></b><span></span><em></em></div>
+
+    <div class="boot-status" data-reveal-hud aria-live="polite">
+      <div class="boot-status-head"><span id="boot-index">01.</span><span id="boot-state">INITIALISATION</span><b id="boot-percent">0%</b></div>
+      <div id="boot-lines"></div>
+      <strong id="boot-nominal">ALL SYSTEMS<br>STANDBY</strong>
+    </div>
+
+    <div class="orion-flash" data-reveal-flash aria-hidden="true"></div>
+    <div class="asset-error" data-reveal-error role="alert">ERREUR ASSET — L’image ORION n’a pas pu être décodée.</div>
+
+    <a class="landing-hotspot landing-hotspot-apply" href="https://alpha.orionsimpit.eu/">
+      <span class="sr-only">Rejoindre l’Alpha ORION</span>
+    </a>
+    <a class="landing-hotspot landing-hotspot-private" href="https://alpha.orionsimpit.eu/">
+      <span class="sr-only">Accès privé Alpha Test</span>
+    </a>
   </main>
-
-  <footer class="teaser-footer">
-    <span>© 2026 ORION</span>
-  </footer>
 </body>
 </html>
