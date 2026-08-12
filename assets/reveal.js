@@ -7,7 +7,7 @@
 
   const ARTWORK = "/assets/orion-eclipse-v15-no-left-hud.png";
   const SOURCE = Object.freeze({ width: 1536, height: 1024, centerX: 765, centerY: 430, radius: 192 });
-  const PORTRAIT = Object.freeze({ maxWidth: 900, minAspect: 1.08, widthScale: 1.85, positionY: 0.43 });
+  const PORTRAIT = Object.freeze({ maxWidth: 900, minAspect: 1.08, widthScale: 2.15, heightScale: 0.78, maxWidthScale: 2.9, positionY: 0.32 });
   const TIMING = Object.freeze({ load: 7600, lock: 500, reveal: 1100, fade: 4200, pulse: 6100, cycle: 6600 });
   const phaseSteps = Object.freeze([
     [700, 0, "POWER BUS"],
@@ -25,7 +25,15 @@
 
   function geometryFor(width, height) {
     const portrait = width <= PORTRAIT.maxWidth && height >= width * PORTRAIT.minAspect;
-    const scale = portrait ? width * PORTRAIT.widthScale / SOURCE.width : Math.max(width / SOURCE.width, height / SOURCE.height);
+    let scale;
+    if (portrait) {
+      const widthDriven = width * PORTRAIT.widthScale / SOURCE.width;
+      const heightDriven = height * PORTRAIT.heightScale / SOURCE.height;
+      const maxScale = width * PORTRAIT.maxWidthScale / SOURCE.width;
+      scale = Math.min(Math.max(widthDriven, heightDriven), maxScale);
+    } else {
+      scale = Math.max(width / SOURCE.width, height / SOURCE.height);
+    }
     const renderedWidth = SOURCE.width * scale;
     const renderedHeight = SOURCE.height * scale;
     const left = (width - renderedWidth) / 2;
@@ -36,10 +44,19 @@
     return { x, y, radius, circumference: 2 * Math.PI * radius, left, top, renderedWidth, renderedHeight, portrait };
   }
 
+  function viewportFor(node) {
+    const rect = node.getBoundingClientRect();
+    const visual = typeof window !== "undefined" ? window.visualViewport : null;
+    return {
+      width: visual?.width || rect.width || (typeof innerWidth === "number" ? innerWidth : SOURCE.width),
+      height: visual?.height || rect.height || (typeof innerHeight === "number" ? innerHeight : SOURCE.height),
+    };
+  }
+
   function applyGeometry(node) {
     if (!node) return null;
-    const rect = node.getBoundingClientRect();
-    const geometry = geometryFor(rect.width || innerWidth, rect.height || innerHeight);
+    const viewport = viewportFor(node);
+    const geometry = geometryFor(viewport.width, viewport.height);
     node.style.setProperty("--orion-cx", `${geometry.x}px`);
     node.style.setProperty("--orion-cy", `${geometry.y}px`);
     node.style.setProperty("--orion-radius", `${geometry.radius}px`);
@@ -54,6 +71,7 @@
     node.style.setProperty("--orion-bg-top", `${geometry.top}px`);
     node.style.setProperty("--orion-bg-width", `${geometry.renderedWidth}px`);
     node.style.setProperty("--orion-bg-height", `${geometry.renderedHeight}px`);
+    node.style.setProperty("--orion-viewport-height", `${viewport.height}px`);
     node.classList.toggle("is-portrait-composition", geometry.portrait);
     return geometry;
   }
@@ -79,7 +97,7 @@
     const motion = [];
     let animationFrame = 0;
     let timers = [];
-    let geometry = geometryFor(innerWidth, innerHeight);
+    let geometry = geometryFor(SOURCE.width, SOURCE.height);
 
     master.style.setProperty("--orion-artwork", `url("${artwork}")`);
     corona.style.setProperty("--orion-artwork", `url("${artwork}")`);
@@ -266,8 +284,27 @@
 
     const resize = () => syncGeometry();
     addEventListener("resize", resize);
+    if (typeof window !== "undefined" && window.visualViewport) {
+      window.visualViewport.addEventListener("resize", resize);
+      window.visualViewport.addEventListener("scroll", resize);
+    }
     syncGeometry();
-    return { run, stop, reset, pulse, finalState, preflight, destroy: () => { stop(); removeEventListener("resize", resize); } };
+    return {
+      run,
+      stop,
+      reset,
+      pulse,
+      finalState,
+      preflight,
+      destroy: () => {
+        stop();
+        removeEventListener("resize", resize);
+        if (typeof window !== "undefined" && window.visualViewport) {
+          window.visualViewport.removeEventListener("resize", resize);
+          window.visualViewport.removeEventListener("scroll", resize);
+        }
+      },
+    };
   }
 
   return { ARTWORK, SOURCE, PORTRAIT, TIMING, geometryFor, applyGeometry, create };
