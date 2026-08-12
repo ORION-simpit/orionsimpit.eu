@@ -5,7 +5,7 @@
 })(typeof globalThis !== "undefined" ? globalThis : this, () => {
   "use strict";
 
-  const ARTWORK = "/assets/orion-eclipse-v15.jpg";
+  const ARTWORK = "/assets/orion-eclipse-v15.jpg?v=15.1";
   const SOURCE = Object.freeze({ width: 1536, height: 1024, centerX: 765, centerY: 430, radius: 192 });
   const TIMING = Object.freeze({ load: 7600, lock: 500, reveal: 1100, fade: 3200, pulse: 5200, cycle: 6600 });
   const phaseSteps = Object.freeze([
