@@ -7,7 +7,8 @@
 
   const ARTWORK = "/assets/orion-eclipse-v15-no-left-hud.png";
   const SOURCE = Object.freeze({ width: 1536, height: 1024, centerX: 765, centerY: 430, radius: 192 });
-  const PORTRAIT = Object.freeze({ maxWidth: 900, minAspect: 1.08, widthScale: 2.15, heightScale: 0.78, maxWidthScale: 2.9, positionY: 0.32 });
+  const PORTRAIT = Object.freeze({ maxWidth: 900, minAspect: 1.08, widthScale: 1.85, positionY: 0.43 });
+  const MOBILE = Object.freeze({ maxWidth: 760, edge: 16, top: 14 });
   const TIMING = Object.freeze({ load: 7600, lock: 500, reveal: 1100, fade: 4200, pulse: 6100, cycle: 6600 });
   const phaseSteps = Object.freeze([
     [700, 0, "POWER BUS"],
@@ -25,15 +26,7 @@
 
   function geometryFor(width, height) {
     const portrait = width <= PORTRAIT.maxWidth && height >= width * PORTRAIT.minAspect;
-    let scale;
-    if (portrait) {
-      const widthDriven = width * PORTRAIT.widthScale / SOURCE.width;
-      const heightDriven = height * PORTRAIT.heightScale / SOURCE.height;
-      const maxScale = width * PORTRAIT.maxWidthScale / SOURCE.width;
-      scale = Math.min(Math.max(widthDriven, heightDriven), maxScale);
-    } else {
-      scale = Math.max(width / SOURCE.width, height / SOURCE.height);
-    }
+    const scale = portrait ? width * PORTRAIT.widthScale / SOURCE.width : Math.max(width / SOURCE.width, height / SOURCE.height);
     const renderedWidth = SOURCE.width * scale;
     const renderedHeight = SOURCE.height * scale;
     const left = (width - renderedWidth) / 2;
@@ -41,22 +34,13 @@
     const x = left + SOURCE.centerX * scale;
     const y = top + SOURCE.centerY * scale;
     const radius = SOURCE.radius * scale;
-    return { x, y, radius, circumference: 2 * Math.PI * radius, left, top, renderedWidth, renderedHeight, portrait };
-  }
-
-  function viewportFor(node) {
-    const rect = node.getBoundingClientRect();
-    const visual = typeof window !== "undefined" ? window.visualViewport : null;
-    return {
-      width: visual?.width || rect.width || (typeof innerWidth === "number" ? innerWidth : SOURCE.width),
-      height: visual?.height || rect.height || (typeof innerHeight === "number" ? innerHeight : SOURCE.height),
-    };
+    return { width, height, x, y, radius, circumference: 2 * Math.PI * radius, left, top, renderedWidth, renderedHeight, portrait };
   }
 
   function applyGeometry(node) {
     if (!node) return null;
-    const viewport = viewportFor(node);
-    const geometry = geometryFor(viewport.width, viewport.height);
+    const rect = node.getBoundingClientRect();
+    const geometry = geometryFor(rect.width || innerWidth, rect.height || innerHeight);
     node.style.setProperty("--orion-cx", `${geometry.x}px`);
     node.style.setProperty("--orion-cy", `${geometry.y}px`);
     node.style.setProperty("--orion-radius", `${geometry.radius}px`);
@@ -71,7 +55,6 @@
     node.style.setProperty("--orion-bg-top", `${geometry.top}px`);
     node.style.setProperty("--orion-bg-width", `${geometry.renderedWidth}px`);
     node.style.setProperty("--orion-bg-height", `${geometry.renderedHeight}px`);
-    node.style.setProperty("--orion-viewport-height", `${viewport.height}px`);
     node.classList.toggle("is-portrait-composition", geometry.portrait);
     return geometry;
   }
@@ -97,13 +80,47 @@
     const motion = [];
     let animationFrame = 0;
     let timers = [];
-    let geometry = geometryFor(SOURCE.width, SOURCE.height);
+    let geometry = geometryFor(innerWidth, innerHeight);
 
     master.style.setProperty("--orion-artwork", `url("${artwork}")`);
     corona.style.setProperty("--orion-artwork", `url("${artwork}")`);
 
+    function syncMobileLayout() {
+      const mobile = geometry.width <= MOBILE.maxWidth;
+      if (mobile) {
+        progress.setAttribute("pathLength", "100");
+        hud.style.top = `max(${MOBILE.top}px, env(safe-area-inset-top))`;
+        hud.style.left = `${MOBILE.edge}px`;
+        hud.style.right = `${MOBILE.edge}px`;
+        hud.style.width = "auto";
+        rows.forEach(row => { row.style.margin = "6px 0"; });
+        nominal.style.marginTop = "12px";
+        if (skip) {
+          skip.style.top = `max(${MOBILE.top}px, env(safe-area-inset-top))`;
+          skip.style.right = `${MOBILE.edge}px`;
+        }
+      } else {
+        progress.removeAttribute("pathLength");
+        hud.style.removeProperty("top");
+        hud.style.removeProperty("left");
+        hud.style.removeProperty("right");
+        hud.style.removeProperty("width");
+        rows.forEach(row => { row.style.removeProperty("margin"); });
+        nominal.style.removeProperty("margin-top");
+        if (skip) {
+          skip.style.removeProperty("top");
+          skip.style.removeProperty("right");
+        }
+      }
+    }
+
     function syncGeometry() {
       geometry = applyGeometry(node);
+      syncMobileLayout();
+    }
+
+    function progressCircumference() {
+      return progress.hasAttribute("pathLength") ? 100 : geometry.circumference;
     }
 
     function stop() {
@@ -127,7 +144,7 @@
       master.style.filter = "none";
       bootSpace.style.opacity = 1;
       progress.style.opacity = 1;
-      progress.style.strokeDasharray = `0 ${geometry.circumference}`;
+      progress.style.strokeDasharray = `0 ${progressCircumference()}`;
       progress.style.strokeDashoffset = "0";
       head.style.opacity = 0;
       iMark.style.opacity = 0;
@@ -209,8 +226,9 @@
         const elapsed = Math.min(1, (now - start) / TIMING.load);
         const value = elapsed < 0.12 ? elapsed / 0.12 * 0.07 : 0.07 + (elapsed - 0.12) / 0.88 * 0.93;
         const clamped = Math.min(1, value);
-        const arc = clamped * geometry.circumference;
-        progress.style.strokeDasharray = `${arc} ${geometry.circumference - arc}`;
+        const circumference = progressCircumference();
+        const arc = clamped * circumference;
+        progress.style.strokeDasharray = `${arc} ${circumference - arc}`;
         setHead(clamped);
         const percent = Math.round(clamped * 100);
         index.textContent = `${String(Math.min(5, 1 + Math.floor(elapsed * 5))).padStart(2, "0")}.`;
@@ -236,6 +254,9 @@
       }, TIMING.load + TIMING.lock);
 
       later(timers, () => {
+        syncGeometry();
+        const landing = document.querySelector(".orion-final");
+        if (landing) applyGeometry(landing);
         master.style.visibility = "visible";
         corona.style.visibility = "visible";
         if (skip) {
@@ -284,28 +305,9 @@
 
     const resize = () => syncGeometry();
     addEventListener("resize", resize);
-    if (typeof window !== "undefined" && window.visualViewport) {
-      window.visualViewport.addEventListener("resize", resize);
-      window.visualViewport.addEventListener("scroll", resize);
-    }
     syncGeometry();
-    return {
-      run,
-      stop,
-      reset,
-      pulse,
-      finalState,
-      preflight,
-      destroy: () => {
-        stop();
-        removeEventListener("resize", resize);
-        if (typeof window !== "undefined" && window.visualViewport) {
-          window.visualViewport.removeEventListener("resize", resize);
-          window.visualViewport.removeEventListener("scroll", resize);
-        }
-      },
-    };
+    return { run, stop, reset, pulse, finalState, preflight, destroy: () => { stop(); removeEventListener("resize", resize); } };
   }
 
-  return { ARTWORK, SOURCE, PORTRAIT, TIMING, geometryFor, applyGeometry, create };
+  return { ARTWORK, SOURCE, PORTRAIT, MOBILE, TIMING, geometryFor, applyGeometry, create };
 });
